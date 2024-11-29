@@ -2,8 +2,8 @@ import app from './app'
 import config from './config/config'
 import logger from './config/logger'
 
-const server = app.listen(config.SERVER_PORT, () => {
-    logger.info(`Server (${config.NODE_ENV}) running on port http://${config.SERVER_HOSTNAME}:${config.SERVER_PORT}`)
+const server = app.listen(config.server.port, () => {
+    logger.info(`Server (${config.env}) running on port http://${config.server.hostName}:${config.server.port}`)
 })
 
 const onCloseSignal = () => {

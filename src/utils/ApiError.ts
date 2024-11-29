@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
 
-class BaseError extends Error {
+export class ApiError extends Error {
     statusCode: number
     isOperational: boolean
 
-    constructor(statusCode: number, message: string | undefined, isOperational: boolean) {
+    constructor(statusCode: number, message: string | undefined, isOperational = true) {
         super(message)
 
         this.statusCode = statusCode
@@ -13,8 +13,8 @@ class BaseError extends Error {
     }
 }
 
-export class Api404Error extends BaseError {
-    constructor(statusCode = StatusCodes.NOT_IMPLEMENTED, message = 'Not found.', isOperational = true) {
-        super(statusCode, message, isOperational)
+export class Api404Error extends ApiError {
+    constructor(statusCode = StatusCodes.NOT_IMPLEMENTED, message = 'Not found.') {
+        super(statusCode, message)
     }
 }

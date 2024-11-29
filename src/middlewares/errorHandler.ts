@@ -6,7 +6,7 @@ import logger from '../config/logger'
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     let { statusCode, message } = err
 
-    if (config.NODE_ENV === 'production' && !err.isOperational) {
+    if (config.env === 'production' && !err.isOperational) {
         statusCode = StatusCodes.INTERNAL_SERVER_ERROR
         message = 'Something went wrong!'
     }
@@ -16,10 +16,10 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     const response = {
         code: statusCode,
         message,
-        ...(config.NODE_ENV === 'development' && { stack: err.stack })
+        ...(config.env === 'development' && { stack: err.stack })
     }
 
-    if (config.NODE_ENV === 'development') {
+    if (config.env === 'development') {
         logger.error(err)
     }
 

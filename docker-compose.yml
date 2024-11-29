@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+    app:
+        build: .
+        image: task-management-app
+        ports:
+            - '3000:3000'
+        depends_on:
+            - postgresdb
+        volumes:
+            - .:/usr/src/task-management-app
+        networks:
+            - node-network
+        command: yarn dev -L
+
+    postgresdb:
+        image: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=secret
+        ports:
+            - '5432:5432'
+        volumes:
+            - dbdata:/var/lib/postgresql/data
+        networks:
+            - node-network
+
+volumes:
+    dbdata:
+        driver: local
+
+networks:
+    node-network:
+        driver: bridge

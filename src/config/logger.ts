@@ -39,7 +39,7 @@ class Logger {
             format: formatter
         })
         this.logger = winston.createLogger({
-            level: config.NODE_ENV === 'development' ? 'trace' : 'error',
+            level: config.env === 'development' ? 'trace' : 'error',
             levels: customLevels.levels,
             transports: [transport]
         })

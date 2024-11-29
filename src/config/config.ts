@@ -9,7 +9,10 @@ const envSchema = Joi.object()
         NODE_ENV: Joi.string().valid('development', 'test', 'production').required(),
         SERVER_HOSTNAME: Joi.string().default('localhost'),
         SERVER_PORT: Joi.number().default(3000),
-        CORS_ORIGIN: Joi.string().default('http://localhost:*')
+        DATABASE_URL: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().required(),
+        JWT_REFRESH_EXPIRATION_DAYS: Joi.number().required()
     })
     .unknown()
 
@@ -20,8 +23,17 @@ if (error) {
 }
 
 export default {
-    NODE_ENV: value.NODE_ENV,
-    SERVER_HOSTNAME: value.SERVER_HOSTNAME,
-    SERVER_PORT: value.SERVER_PORT,
-    CORS_ORIGIN: value.CORS_ORIGIN
+    env: value.NODE_ENV,
+    server: {
+        hostName: value.SERVER_HOSTNAME,
+        port: value.SERVER_PORT
+    },
+    database: {
+        url: value.DATABASE_URL
+    },
+    jwt: {
+        secret: value.JWT_SECRET,
+        accessExpirationInMinutes: value.JWT_ACCESS_EXPIRATION_MINUTES,
+        refrestExpirationInDays: value.JWT_REFRESH_EXPIRATION_DAYS
+    }
 }
