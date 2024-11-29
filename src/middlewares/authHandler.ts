@@ -15,7 +15,6 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
         const secret = config.jwt.secret
         try {
             const token = jwt.verify(authenticationToken.replace('Bearer ', ''), secret) as IJwtPayload
-            console.log('authenticationToken=', token)
             const user = await userService.getUserById(token.id)
 
             if (user) {

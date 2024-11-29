@@ -7,7 +7,7 @@ import requireAuth from '../middlewares/authHandler'
 
 router
     .route('/')
-    .post(requireAuth, validationHandler(taskValidation.updateTask), taskController.create)
+    .post(requireAuth, validationHandler(taskValidation.createTask), taskController.create)
     .get(requireAuth, taskController.list)
 router
     .route('/:id')

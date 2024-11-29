@@ -2,7 +2,7 @@ import _omit from 'lodash/omit'
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { User } from '@prisma/client'
-import userService from '../services/user.service'
+import { userService } from '../services'
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
