@@ -14,7 +14,8 @@ const updateTask = {
     body: Joi.object()
         .keys({
             title: Joi.string().min(3),
-            description: Joi.string().min(3)
+            description: Joi.string().min(3),
+            completed: Joi.boolean()
         })
         .min(1)
 }

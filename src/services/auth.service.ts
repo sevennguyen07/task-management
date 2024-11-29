@@ -1,18 +1,18 @@
-import _omit from 'lodash/omit'
 import { TokenType, User } from '@prisma/client'
 import { ApiError } from '../utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { isPasswordMatch } from '../utils/encrypt'
 import userService from './user.service'
 import prisma from '../config/prismaClient'
+import { TUserLogin, TUserRead } from '../types/types'
 
-const login = async (email: string, password: string): Promise<Omit<User, 'password'>> => {
-    const existingUser = await userService.getUserByEmail(email)
-    if (!existingUser || !(await isPasswordMatch(password, existingUser.password))) {
+const login = async (user: TUserLogin): Promise<TUserRead> => {
+    const existingUser = await userService.getUserByEmail(user.email, ['id', 'email', 'password'])
+    if (!existingUser || !(await isPasswordMatch(user.password, existingUser.password))) {
         throw new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password')
     }
 
-    return _omit(existingUser, 'password')
+    return existingUser
 }
 
 const logout = async (refreshToken: string): Promise<void> => {

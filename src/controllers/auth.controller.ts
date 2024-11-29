@@ -6,10 +6,10 @@ import { authService, tokenService } from '../services'
 const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password } = req.body
-        const user = await authService.login(email, password)
+        const user = await authService.login({ email, password })
 
-        const accessToken = await tokenService.generateAuthTokens(user.id)
-        res.send({ user, tokens: accessToken })
+        const accessToken = await tokenService.generateAuthTokens(user!.id)
+        res.send({ user: _omit(user, 'password'), tokens: accessToken })
     } catch (error) {
         next(error)
     }

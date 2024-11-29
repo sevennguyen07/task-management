@@ -14,7 +14,7 @@ export class ApiError extends Error {
 }
 
 export class Api404Error extends ApiError {
-    constructor(statusCode = StatusCodes.NOT_IMPLEMENTED, message = 'Not found.') {
+    constructor(statusCode = StatusCodes.NOT_FOUND, message = 'Not found.') {
         super(statusCode, message)
     }
 }

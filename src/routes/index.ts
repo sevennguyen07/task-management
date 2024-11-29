@@ -6,6 +6,6 @@ import taskRoute from './task.route'
 const router = express.Router()
 router.use('/health', healthRoute)
 router.use('/users', userRoute)
-router.use('/tasks', taskRoute)
+router.use('/users/tasks', taskRoute)
 
 export default router

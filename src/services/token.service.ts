@@ -1,9 +1,9 @@
+import { TAuthTokens } from './../types/types'
 import jwt from 'jsonwebtoken'
 import { Token, TokenType } from '@prisma/client'
 import moment, { Moment } from 'moment'
 import config from '../config/config'
 import prisma from '../config/prismaClient'
-import { AuthTokens } from 'types/types'
 
 const createToken = async (
     userId: number,
@@ -33,7 +33,7 @@ const createToken = async (
     return token
 }
 
-const generateAuthTokens = async (userId: number): Promise<AuthTokens> => {
+const generateAuthTokens = async (userId: number): Promise<TAuthTokens> => {
     const accessTokenExpires = moment().add(config.jwt.accessExpirationInMinutes, 'minutes')
     const accessToken = await createToken(userId, accessTokenExpires, TokenType.ACCESS)
 
