@@ -25,7 +25,7 @@ app.use(morgan.successHandler)
 app.use(morgan.errorHandler)
 
 // Routes
-app.use('/v1', routes)
+app.use('/api/v1', routes)
 
 //404 for unknow apis
 app.use((req, res, next) => {

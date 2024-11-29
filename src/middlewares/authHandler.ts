@@ -21,13 +21,13 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
                 req.context.user = user
                 next()
             } else {
-                next(new ApiError(StatusCodes.UNAUTHORIZED, 'Wrong authentication token'))
+                next(new ApiError(StatusCodes.UNAUTHORIZED, 'Unauthorized'))
             }
         } catch (error) {
-            next(new ApiError(StatusCodes.UNAUTHORIZED, 'Wrong authentication token'))
+            next(new ApiError(StatusCodes.UNAUTHORIZED, 'Unauthorized'))
         }
     } else {
-        next(new ApiError(StatusCodes.UNAUTHORIZED, 'Authentication token missing'))
+        next(new ApiError(StatusCodes.UNAUTHORIZED, 'Unauthorized'))
     }
 }
 

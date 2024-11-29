@@ -4,6 +4,7 @@ import logger from './config/logger'
 
 const server = app.listen(config.server.port, () => {
     logger.info(`Server (${config.env}) running on port http://${config.server.hostName}:${config.server.port}`)
+    logger.info(`API docs avaiables on http://${config.server.hostName}:${config.server.port}/api/v1`)
 })
 
 const onCloseSignal = () => {

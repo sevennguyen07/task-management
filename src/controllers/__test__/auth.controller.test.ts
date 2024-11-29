@@ -10,14 +10,14 @@ jest.mock('../../services')
 jest.mock('../../middlewares/authHandler')
 
 describe('Auth Controller', () => {
-    describe('/v1/users/login', () => {
+    describe('/api/v1/users/login', () => {
         it('should return an error', async () => {
             ;(authService.login as jest.Mock).mockRejectedValue(
                 new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password')
             )
 
             await request(app)
-                .post('/v1/users/login')
+                .post('/api/v1/users/login')
                 .send({ email: 'foo@bar.com', password: 'abcd1234' })
                 .expect(StatusCodes.UNAUTHORIZED, {
                     code: StatusCodes.UNAUTHORIZED,
@@ -26,10 +26,13 @@ describe('Auth Controller', () => {
         })
 
         it('should return a validation error', async () => {
-            await request(app).post('/v1/users/login').send({ email: 'foo@bar.com' }).expect(StatusCodes.BAD_REQUEST, {
-                code: 400,
-                message: '"password" is required'
-            })
+            await request(app)
+                .post('/api/v1/users/login')
+                .send({ email: 'foo@bar.com' })
+                .expect(StatusCodes.BAD_REQUEST, {
+                    code: 400,
+                    message: '"password" is required'
+                })
         })
 
         it('should login successfully', async () => {
@@ -40,7 +43,7 @@ describe('Auth Controller', () => {
             })
 
             await request(app)
-                .post('/v1/users/login')
+                .post('/api/v1/users/login')
                 .send({ email: 'foo@bar.com', password: 'abcd1234' })
                 .expect(StatusCodes.OK, {
                     user: {
@@ -52,13 +55,13 @@ describe('Auth Controller', () => {
         })
     })
 
-    describe('/v1/users/logout', () => {
+    describe('/api/v1/users/logout', () => {
         beforeEach(() => {
             ;(requireAuth as jest.Mock).mockImplementation((req: Request, res: Response, next: NextFunction) => next())
         })
 
         it('should return a validation error', async () => {
-            await request(app).post('/v1/users/logout').send({}).expect(StatusCodes.BAD_REQUEST, {
+            await request(app).post('/api/v1/users/logout').send({}).expect(StatusCodes.BAD_REQUEST, {
                 code: 400,
                 message: '"refreshToken" is required'
             })
@@ -67,7 +70,7 @@ describe('Auth Controller', () => {
         it('should return an error', async () => {
             ;(authService.logout as jest.Mock).mockRejectedValue(new Api404Error())
             await request(app)
-                .post('/v1/users/logout')
+                .post('/api/v1/users/logout')
                 .send({ refreshToken: 'abcd1234' })
                 .expect(StatusCodes.NOT_FOUND, {
                     code: StatusCodes.NOT_FOUND,
@@ -77,7 +80,10 @@ describe('Auth Controller', () => {
 
         it('should logout successfully', async () => {
             ;(authService.logout as jest.Mock).mockResolvedValue({})
-            await request(app).post('/v1/users/logout').send({ refreshToken: 'abc123' }).expect(StatusCodes.NO_CONTENT)
+            await request(app)
+                .post('/api/v1/users/logout')
+                .send({ refreshToken: 'abc123' })
+                .expect(StatusCodes.NO_CONTENT)
         })
     })
 })

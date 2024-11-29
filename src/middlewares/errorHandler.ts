@@ -15,8 +15,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
     const response = {
         code: statusCode,
-        message,
-        ...(config.env === 'development' && { stack: err.stack })
+        message
     }
 
     if (config.env === 'development') {
